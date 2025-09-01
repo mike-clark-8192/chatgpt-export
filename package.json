@@ -3,7 +3,9 @@
   "version": "2.0.0",
   "main": "gpt2md.js",
   "scripts": {
-    "build": "./build.js"
+    "build:dev": "node ./build.js --dev",
+    "build:prod": "node ./build.js",
+    "build:both": "npm run build:dev && npm run build:prod"
   },
   "type": "module",
   "homepage": "https://geeksta.net/tools/chatgpt-to-markdown/",
