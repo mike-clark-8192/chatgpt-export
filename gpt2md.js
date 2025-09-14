@@ -9,19 +9,22 @@ const ts = new TurndownService({
 ts.use(tables);
 
 // Clone to not modify the actual `document.body` in the code that follows
-const body = document.body.cloneNode(true);
+
+const cbody = /** @type {HTMLElement} */ (
+    document.body.cloneNode(true)
+);
 
 // Remove code box headers
-body.querySelectorAll('pre .text-xs').forEach(n => n.parentNode?.removeChild(n));
+cbody.querySelectorAll('pre .text-xs').forEach(n => n.parentNode?.removeChild(n));
 
 // Remove prompt/response numbers
-body.querySelectorAll('div .text-xs.gap-1').forEach(n => n.parentNode?.removeChild(n));
+cbody.querySelectorAll('div .text-xs.gap-1').forEach(n => n.parentNode?.removeChild(n));
 
 // Remove footer
 cbody.querySelectorAll('#thread-bottom-container').forEach(n => n.remove());
 
 // properly format code blocks
-body.querySelectorAll('.text-message pre').forEach((n) => {
+cbody.querySelectorAll('.text-message pre').forEach((n) => {
   n.innerHTML = n.querySelector('code').outerHTML;
 });
 
@@ -38,7 +41,7 @@ cbody.querySelectorAll('[data-testid="webpage-citation-pill"] a').forEach(cleanP
 
 // Iterate through main text containers and create text to export
 let text = `# ${document.title}\n\n`;
-body.querySelectorAll('.text-message').forEach((n, i) => {
+cbody.querySelectorAll('.text-message').forEach((n, i) => {
     const num = Math.trunc(i / 2) + 1;
     const prose = n.querySelector('.prose');
     if (prose) {
