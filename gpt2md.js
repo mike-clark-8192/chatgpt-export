@@ -5,24 +5,24 @@ const ts = new TurndownService({
     'preformattedCode': true,
     'headingStyle': 'setext',
     'codeBlockStyle': 'fenced'
-});
+ });
 ts.use(tables);
 
 // Clone to not modify the actual `document.body` in the code that follows
-const cbody = document.body.cloneNode(true);
+const body = document.body.cloneNode(true);
 
 // Remove code box headers
-cbody.querySelectorAll('pre .text-xs').forEach(n => n.remove());
+body.querySelectorAll('pre .text-xs').forEach(n => n.parentNode?.removeChild(n));
 
 // Remove prompt/response numbers
-cbody.querySelectorAll('div .text-xs.gap-1').forEach(n => n.remove());
+body.querySelectorAll('div .text-xs.gap-1').forEach(n => n.parentNode?.removeChild(n));
 
 // Remove footer
-cbody.querySelectorAll('.absolute.bottom-0').forEach(n => n.remove());
+cbody.querySelectorAll('#thread-bottom-container').forEach(n => n.remove());
 
 // properly format code blocks
-cbody.querySelectorAll('.text-message pre').forEach((n) => {
-    n.innerHTML = n.querySelector('code').outerHTML;
+body.querySelectorAll('.text-message pre').forEach((n) => {
+  n.innerHTML = n.querySelector('code').outerHTML;
 });
 
 
@@ -38,7 +38,7 @@ cbody.querySelectorAll('[data-testid="webpage-citation-pill"] a').forEach(cleanP
 
 // Iterate through main text containers and create text to export
 let text = `# ${document.title}\n\n`;
-cbody.querySelectorAll('.text-message').forEach((n, i) => {
+body.querySelectorAll('.text-message').forEach((n, i) => {
     const num = Math.trunc(i / 2) + 1;
     const prose = n.querySelector('.prose');
     if (prose) {
